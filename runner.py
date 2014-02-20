@@ -11,7 +11,7 @@ os.system(run_command)
 redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 myredis = redis.from_url(redis_url)
 
-with os.open("results.html", "r") as results:
+with open("results.html", "r") as results:
     myredis.set(test_type, results.read())
 
 
