@@ -22,6 +22,10 @@ host = None
 selenium_logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
 selenium_logger.setLevel(logging.WARNING)
 
+sauce_configs = {
+    "sauce_windows_chrome": {"capabilities": webdriver.DesiredCapabilities.CHROME, "version":"31", "platform": "Windows 8.1"}, 
+    "sauce_windows_ie": {"capabilities": webdriver.DesiredCapabilities.INTERNETEXPLORER, "version":"11", "platform": "Windows 8.1"}} 
+
 def set_web_driver_and_host(type_of_test):
     print "setting type_of_test=", type_of_test
 
@@ -44,11 +48,11 @@ def set_web_driver_and_host(type_of_test):
             '--ignore-ssl-errors=true'
             ]
         wd = webdriver.PhantomJS('phantomjs', service_args=service_args)
-    elif type_of_test == 'sauce_windows_chrome':
+    elif type_of_test.startswith("sauce"):
         # code for others is here: https://saucelabs.com/platforms
-        desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        desired_capabilities['version'] = '31'
-        desired_capabilities['platform'] = "Windows 8.1"
+        desired_capabilities = sauce_configs[type_of_test]["capabilities"]
+        desired_capabilities['version'] = sauce_configs[type_of_test]["version"]
+        desired_capabilities['platform'] = sauce_configs[type_of_test]["platform"]
         desired_capabilities['name'] = "test"
         if not os.getenv("SAUCE_COMMAND_PATH"):
             print "need SAUCE_COMMAND_PATH environment variable"
