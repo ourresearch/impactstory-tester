@@ -7,7 +7,7 @@ from selenium.common.exceptions import TimeoutException, ElementNotVisibleExcept
 
 
 class Page(object):
-    def __init__(self, wd, url, implicit_wait_time=10):
+    def __init__(self, wd, url, implicit_wait_time=5):
         self.wd = wd
         self.url = url
         self.implicit_wait_time = implicit_wait_time
@@ -89,7 +89,8 @@ class Page(object):
             time.sleep(1)
             count += 1
             if count == self.timeout:
-                raise Exception(*locator + ' has not loaded')
+                print "not loaded"
+                raise Exception(*locator)
 
     def wait_for_element_visible(self, *locator):
         """Wait for the element at the specified locator to be visible in the browser."""
@@ -98,7 +99,8 @@ class Page(object):
             time.sleep(1)
             count += 1
             if count == self.timeout:
-                raise Exception(*locator + " is not visible")
+                print "not visible"
+                raise Exception(*locator)
 
     def wait_for_element_not_present(self, *locator):
         """Wait for the element at the specified locator to be not present in the DOM."""

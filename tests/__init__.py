@@ -10,7 +10,7 @@ host = None
 #type_of_test = 'sauce_windows_chrome'
 
 # call like this 
-# nosetests -s --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:local_phantomjs 
+# nosetests --rednose --with-progressive --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:local_firefox 
 # -s is to turn off output capture
 
 # or 
@@ -23,19 +23,27 @@ selenium_logger = logging.getLogger('selenium.webdriver.remote.remote_connection
 selenium_logger.setLevel(logging.WARNING)
 
 def set_web_driver_and_host(type_of_test):
+    print "setting type_of_test=", type_of_test
+
     if type_of_test.startswith("local"):
         host = "http://localhost:5000"
     else:
         host = "http://staging-impactstory.org"        
 
     if type_of_test == 'local_firefox':
-        wd = webdriver.Firefox()
+        profile = webdriver.FirefoxProfile()
+        profile.set_preference('webdriver.load.strategy', 'unstable')
+        wd = webdriver.Firefox(profile)
     elif type_of_test == 'local_chrome':
         wd = webdriver.Chrome()
     elif type_of_test == 'local_safari':
         wd = webdriver.Safari()
-    elif type_of_test == 'local_phantomjs':     
-        wd = webdriver.PhantomJS('phantomjs')
+    elif type_of_test == 'local_phantomjs':   
+        service_args = [
+            '--load-images=true', 
+            '--ignore-ssl-errors=true'
+            ]
+        wd = webdriver.PhantomJS('phantomjs', service_args=service_args)
     elif type_of_test == 'sauce_windows_chrome':
         # code for others is here: https://saucelabs.com/platforms
         desired_capabilities = webdriver.DesiredCapabilities.CHROME

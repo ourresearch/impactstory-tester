@@ -22,7 +22,7 @@ class TestProfile(SeleniumTestCase):
         self.page.get()
         self.page.login("team@impactstory.org")
 
-        print self.page.controls().text
+        print [a.text for a in self.page.controls()]
         assert_equals(1, "Carl Boettiger")
   
       
