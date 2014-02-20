@@ -1,2 +1,6 @@
+nose
+nose-progressive
 nose-testconfig
 rednose
+requests
+selenium
