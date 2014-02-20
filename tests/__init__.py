@@ -1,9 +1,14 @@
 from selenium import webdriver
 import testconfig
-import os, logging
+import os, logging, sys
+import httplib
+import base64
+import json
 
 wd = None
 host = None
+
+# platforms for sauce are here:  https://saucelabs.com/platforms
 
 #type_of_test = 'local_phantomjs'
 #type_of_test = 'local_firefox'
@@ -65,12 +70,39 @@ def set_web_driver_and_host(type_of_test):
     return (wd, host)
 
 
+# based on https://gist.github.com/santiycr/1644439
+def set_test_status(jobid, passed=True):
+    body_content = json.dumps({"passed": passed})
+    connection =  httplib.HTTPConnection("saucelabs.com")
+
+    username=os.getenv("SAUCE_USERNAME")
+    access_key=os.getenv("SAUCE_ACCESS_KEY")
+
+    base64string = base64.encodestring("{username}:{access_key}".format(
+        username=username, access_key=access_key))[:-1]
+
+    connection.request('PUT', '/rest/v1/%s/jobs/%s' % (username, jobid),
+                       body_content,
+                       headers={"Authorization": "Basic %s" % base64string})
+    result = connection.getresponse()
+    return result.status == 200
+ 
 def setup_package():
     global wd, host
     test_type = testconfig.config['test_type']
     (wd, host) = set_web_driver_and_host(test_type)
+    if "sauce" in testconfig.config['test_type']:
+        print "setting pass to false"
+        set_test_status(wd.session_id, passed=False)  #default to failed
+        print "****", sys.exc_info()
+
 
 def teardown_package():
-    wd.quit()
+    print "****", sys.exc_info()
     if "sauce" in testconfig.config['test_type']:
         print("Link to your job: https://saucelabs.com/jobs/%s" % wd.session_id)
+        if sys.exc_info() == (None, None, None):
+            set_test_status(wd.session_id, passed=True)
+    wd.quit()
+
+

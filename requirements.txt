@@ -1,6 +1,8 @@
 nose
+nosehtmloutput
 nose-progressive
 nose-testconfig
+redis
 rednose
 requests
 selenium
