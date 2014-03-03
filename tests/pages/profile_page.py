@@ -13,8 +13,8 @@ class ProfilePage(Page):
 
     @property
     def name(self):
-        self.wait_for_element_visible(*(By.ID, "profile-name"))        
-        return self.wd.find_element_by_id("profile-name").text
+        self.wait_for_element_visible(*(By.ID, "profile-owner-name"))        
+        return self.wd.find_element_by_id("profile-owner-name").text
 
     @property
     def number_products(self):
