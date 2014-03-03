@@ -6,7 +6,7 @@ import base64
 import json
 
 # based on https://gist.github.com/santiycr/1644439
-def set_test_status(jobid, passed=True):
+def set_test_status(jobid, sauce_data):
 
     username=os.getenv("SAUCE_USERNAME")
     access_key=os.getenv("SAUCE_ACCESS_KEY")
@@ -15,7 +15,7 @@ def set_test_status(jobid, passed=True):
 
     connection =  httplib.HTTPConnection("saucelabs.com")
     connection.request('PUT', '/rest/v1/%s/jobs/%s' % (username, jobid),
-                       json.dumps({"passed": passed}),
+                       json.dumps(sauce_data),
                        headers={"Authorization": "Basic %s" % base64string})
     result = connection.getresponse()
     return result.status == 200
@@ -33,9 +33,12 @@ myredis = redis.from_url(redis_url)
 job_id = myredis.get(test_type+"job")
 with open("results.html", "r") as results_file:
     results_contents = results_file.read()
-passed = "<strong>Status:</strong> Passed" in results_contents
+passed = "most recent call last" not in results_contents
 print "JOB ID:", job_id, "PASSED:", passed
-set_test_status(job_id, passed=passed)
+sauce_data = {
+    "passed": passed,
+    "custom-data": {"results.html":results_contents}}
+set_test_status(job_id, sauce_data)
 myredis.set(test_type+"results", results_contents)
 
 
