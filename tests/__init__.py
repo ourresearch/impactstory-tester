@@ -1,9 +1,7 @@
 from selenium import webdriver
 import testconfig
 import os, logging, sys
-import httplib
-import base64
-import json
+import redis
 
 wd = None
 host = None
@@ -16,11 +14,11 @@ host = None
 
 # call like this 
 # nosetests --rednose --with-progressive --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:local_firefox 
+# nosetests --with-html-output --rednose --with-progressive --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:sauce_windows_chrome tests/test_signup.py
 # -s is to turn off output capture
 
 # or 
 # mynosy tests -s --verbose --processes=4 --process-timeout=120 -A \"not slow and not online\" --tc=test_type:local_phantomjs
-
 
 #import sys; sys.path.append("/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium-2.39.0-py2.7.egg")
 
@@ -70,39 +68,21 @@ def set_web_driver_and_host(type_of_test):
     return (wd, host)
 
 
-# based on https://gist.github.com/santiycr/1644439
-def set_test_status(jobid, passed=True):
-    body_content = json.dumps({"passed": passed})
-    connection =  httplib.HTTPConnection("saucelabs.com")
 
-    username=os.getenv("SAUCE_USERNAME")
-    access_key=os.getenv("SAUCE_ACCESS_KEY")
-
-    base64string = base64.encodestring("{username}:{access_key}".format(
-        username=username, access_key=access_key))[:-1]
-
-    connection.request('PUT', '/rest/v1/%s/jobs/%s' % (username, jobid),
-                       body_content,
-                       headers={"Authorization": "Basic %s" % base64string})
-    result = connection.getresponse()
-    return result.status == 200
  
 def setup_package():
     global wd, host
     test_type = testconfig.config['test_type']
     (wd, host) = set_web_driver_and_host(test_type)
-    if "sauce" in testconfig.config['test_type']:
-        print "setting pass to false"
-        set_test_status(wd.session_id, passed=False)  #default to failed
-        print "****", sys.exc_info()
 
 
 def teardown_package():
     print "****", sys.exc_info()
     if "sauce" in testconfig.config['test_type']:
         print("Link to your job: https://saucelabs.com/jobs/%s" % wd.session_id)
-        if sys.exc_info() == (None, None, None):
-            set_test_status(wd.session_id, passed=True)
+        redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+        myredis = redis.from_url(redis_url)
+        myredis.set(testconfig.config['test_type']+"job", wd.session_id)
     wd.quit()
 
 
