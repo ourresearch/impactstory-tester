@@ -42,7 +42,6 @@ class Page(object):
 
 
 
-    # several methods reused from https://github.com/mozilla/remo-tests/blob/master/pages/page.py
     def is_element_present(self, *locator):
         """
         Return true if the element at the specified locator is present in the DOM.
@@ -81,6 +80,18 @@ class Page(object):
         finally:
             # set the implicit wait back
             self.wd.implicitly_wait(self.implicit_wait_time)
+
+
+
+    def wait_for_element_clickable(self, *locator):
+        wait = WebDriverWait(self.wd, 10)
+        element = wait.until(EC.element_to_be_clickable(locator))
+        if self.wd.name == "chrome":
+            # chrome needs extra time because otherwise returns "Element is not clickable"
+            print "sleep 1 second to make clickable in chrome"
+            time.sleep(1)
+
+
 
     def wait_for_element_present(self, *locator):
         """Wait for the element at the specified locator to be present in the DOM."""

@@ -1,4 +1,5 @@
 import os
+import time
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -35,30 +36,51 @@ class SignupPage(Page):
         self.wd.find_element_by_class_name("btn-primary").click()
 
         self.wait_for_element_present(*(By.CLASS_NAME, "profile-header"))
+        profile_url = self.wd.current_url
+        self.url_slug = profile_url.rsplit("/", 1)[1]
+        print self.url_slug
 
 
-    def fill_import_tile(self, importer_name, import_content):
+    def fill_account_tile(self, importer_name, import_content):
         print self.wd.current_url
-        self.wait_for_element_present(*(By.ID, importer_name + "-import-tile"))
-        self.wd.find_element_by_id(importer_name + "-import-tile").click()
+        self.wait_for_element_visible(*(By.ID, importer_name + "-account-tile"))
+        self.wd.find_element_by_id(importer_name + "-account-tile").click()
 
+        self.wait_for_element_clickable(*(By.ID, importer_name + "-account-username-input"))
+
+        self.wd.find_element_by_id(importer_name + "-account-username-input").click()
+        self.wd.find_element_by_id(importer_name + "-account-username-input").send_keys(import_content)
+
+        self.wd.find_element_by_id(importer_name + "-account-username-submit").click()
+
+
+    def is_account_connected(self, importer_name):
+        print self.wd.current_url
+        self.wait_for_element_visible(*(By.ID, importer_name + "-account-toggle"))
+        found = True
         try:
-            self.wd.find_element_by_xpath("//div[@class='importer-input']/textarea").click()
-            self.wd.find_element_by_xpath("//div[@class='importer-input']/textarea").send_keys(import_content)
-        except ElementNotVisibleException:
-            self.wd.find_element_by_xpath("//div[@class='content']/form/div[1]/div/input").click()
-            self.wd.find_element_by_xpath("//div[@class='content']/form/div[1]/div/input").send_keys(import_content)
+            timeout = self.timeout
+            self.timeout = 2
+            self.wait_for_element_visible(*(By.ID, importer_name + "-account-toggle-on"))
+        except Exception:
+            found = False
+        self.timeout = timeout           
+        return found
 
-        self.wd.find_element_by_xpath("//button[@type='submit']").click()
 
-    def start_importers(self):
+    def start_connected_accounts(self):
         print self.wd.current_url
         self.wait_for_element_visible(*(By.PARTIAL_LINK_TEXT, "Import my"))
         self.wd.find_element_by_partial_link_text("Import my").click()
 
+    def finish_connected_accounts(self):
+        print self.wd.current_url
+        self.wait_for_element_visible(*(By.PARTIAL_LINK_TEXT, "back to profile"))
+        self.wd.find_element_by_partial_link_text("back to profile").click()
+
 
     def wait_till_import_done(self):
-        self.wait_for_element_present(*(By.CLASS_NAME, "admin-controls"))
+        self.wait_for_element_visible(*(By.ID, importer_name + "-account-tile"))
 
 
 

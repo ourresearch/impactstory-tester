@@ -13,25 +13,31 @@ class TestSignup(SeleniumTestCase):
     def setUp(self):
         self.page = signup_page.SignupPage(self.wd, self.host)
 
+    def tearDown(self):
+        pass
+
     def test_signup(self):
         self.page.get()
-        test_email = "test" + str(random.randint(1000, 9999)) + "@e.com"
-        self.page.fill_signup_form("Heather", "Piwowar", test_email, "pass123")
+        test_email = "test" + str(random.randint(1000, 9999)) + "@test-impactstory.org"
+        self.page.fill_signup_form("Heather", "Impactstorytester", test_email, "pass123")
 
-        self.page.start_importers()
+        self.page.start_connected_accounts()
 
-        self.page.fill_import_tile("github", "tjv")
-        self.page.wait_till_import_done()
+        assert_equals(self.page.is_account_connected("github"), False)
 
-        profile_url = self.wd.current_url
-        url_slug = profile_url.rsplit("/", 1)[1]
-        print url_slug
+        self.page.fill_account_tile("github", "tjv")
 
-        self.profile_page = profile_page.ProfilePage(self.wd, self.host, url_slug)
-        #self.profile_page.get()
+        assert_equals(self.page.is_account_connected("github"), True)
+
+        self.page.finish_connected_accounts()
+
+        self.profile_page = profile_page.ProfilePage(self.wd, self.host, self.page.url_slug)
+
+        # ideally shouldn't need this refresh
+        self.wd.refresh()
 
         assert_equals(self.profile_page.number_products, 4)
-        assert_equals(self.profile_page.name, "Heather Piwowar")
+        assert_equals(self.profile_page.name, "Heather Impactstorytester")
 
         assert_in("hapnotes", self.profile_page.product_titles)
         assert_in("semantic_similarity", self.profile_page.product_titles)
