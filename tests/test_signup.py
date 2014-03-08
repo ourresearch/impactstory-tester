@@ -33,8 +33,11 @@ class TestSignup(SeleniumTestCase):
 
         self.profile_page = profile_page.ProfilePage(self.wd, self.host, self.page.url_slug)
 
-        # ideally shouldn't need this refresh
-        self.wd.refresh()
+        # ideally won't need these
+        self.profile_page.get()
+        #self.wd.refresh()
+
+        print self.wd.current_url
 
         assert_equals(self.profile_page.number_products, 4)
         assert_equals(self.profile_page.name, "Heather Impactstorytester")
