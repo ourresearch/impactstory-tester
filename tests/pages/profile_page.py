@@ -72,7 +72,11 @@ class ProfilePage(Page):
     def controls(self):
         return self.wd.find_elements_by_css_selector("div.admin-controls")
 
-
+    def wait_till_done_updating(self):
+        # self.wait_for_element_not_visible_override_timeout(120, *(By.CSS_SELECTOR, "h3.finding-impact-data-header"))
+        # self.wait_for_element_not_present(*(By.CSS_SELECTOR, "h3.finding-impact-data-header"))
+        import time
+        time.sleep(30)
 
 
 

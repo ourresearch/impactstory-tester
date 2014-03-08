@@ -104,7 +104,7 @@ def delete_all_test_accounts(host):
     url = host + u"/tests?key=" + os.getenv("API_ADMIN_KEY")
     print u"deleting all test accounts:", url
     r = requests.delete(url)
-    print r.json()
+    print "DELETED", r.json()
     return r.json()
 
 
