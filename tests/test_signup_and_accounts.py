@@ -58,9 +58,10 @@ class TestSignupAndAccounts(SeleniumTestCase):
 
     def hover_stats_equal(self, list_a, list_b):
         print list_a, list_b
-        for (stat_a, stat_b) in zip(list_a, list_b):
-            assert_equals(stat_a["metric_name"], stat_b["metric_name"])
-            assert_greater_equal(int(stat_a["stat"]), int(stat_b["stat"]))
+        assert_items_equal([stat_a["metric_name"] for stat_a in list_a], [stat_b["metric_name"] for stat_b in list_b])
+        for stat_a in list_a:
+            relevent_metric_dict = [stat_b for stat_b in list_b if stat_b["metric_name"]==stat_a["metric_name"]]
+            assert_greater_equal(int(stat_a["stat"]), int(relevent_metric_dict[0]["stat"]))
 
 
     def test_signup_and_accounts(self):
