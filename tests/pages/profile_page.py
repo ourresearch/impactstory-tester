@@ -40,17 +40,18 @@ class ProfilePage(Page):
 
     def extract_stats_from_hover_text(self, hover_text):
         print hover_text
+        hover_text = re.sub("\s+", " ", hover_text)
+
         if "suggesting" in hover_text:
-            response = re.findall("This item has (.*?) (.*), suggesting", hover_text, re.DOTALL)
+            response = re.findall("This item has (.*?) (.*), suggesting", hover_text)
         else:
-            response = re.findall("This item has (.*?) (.*)\. That", hover_text, re.DOTALL)
+            response = re.findall("This item has (.*?) (.*)\. That", hover_text)
         print response
-        print re.findall("This item has (.*?) That", hover_text, re.DOTALL)
+        print re.findall("This item has (.*?) (.*?). That", hover_text)
 
         if not response:
             return {}
         (stat, metric_name) = response[0]
-        metric_name = re.sub("\s+", " ", metric_name)
         response = {"stat":stat, "metric_name":metric_name}
         return ({"stat":stat, "metric_name":metric_name})
 
