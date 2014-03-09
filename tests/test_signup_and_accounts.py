@@ -70,15 +70,6 @@ class TestSignupAndAccunts(SeleniumTestCase):
         surname = "Kent"
 
         account_testing_data = {
-            "github": {
-                "username": "tjv",
-                "number_products": 4,
-                "products": [{
-                    "title": "hapnotes",
-                    "awards": [u'recommended', u'cited'],
-                    "hover_stats": [{'stat': u'1', 'metric_name': u'GitHub star'}, {'stat': u'1', 'metric_name': u'GitHub fork'}]
-                }]
-            },
             "orcid": {
                 "username": "0000-0001-6187-6610",
                 "number_products": 4,
@@ -86,6 +77,15 @@ class TestSignupAndAccunts(SeleniumTestCase):
                     "title": "How and why scholars cite on Twitter",
                     "awards": [u'cited', u'saved', u'saved', u'discussed'],
                     "hover_stats": [{'stat': u'16', 'metric_name': u'Scopus citations'}, {'stat': u'129', 'metric_name': u'Mendeley readers'}, {'stat': u'1', 'metric_name': u'Delicious bookmark'}, {'stat': u'18', 'metric_name': u'Altmetric.com tweets'}]
+                }]
+            },
+            "github": {
+                "username": "tjv",
+                "number_products": 4,
+                "products": [{
+                    "title": "hapnotes",
+                    "awards": [u'recommended', u'cited'],
+                    "hover_stats": [{'stat': u'1', 'metric_name': u'GitHub star'}, {'stat': u'1', 'metric_name': u'GitHub fork'}]
                 }]
             },
             "figshare": {
@@ -125,7 +125,7 @@ class TestSignupAndAccunts(SeleniumTestCase):
         self.profile_page = profile_page.ProfilePage(self.wd, self.host, self.page.url_slug)
         
         # comment this out after get refresh code
-        self.profile_page.get() #comment
+        # self.profile_page.get() #comment
 
         print self.wd.current_url
         print "waiting till done updating"

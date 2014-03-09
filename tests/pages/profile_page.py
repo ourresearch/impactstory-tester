@@ -33,9 +33,8 @@ class ProfilePage(Page):
         products = self.wd.find_elements_by_class_name("real-product")
         for product in products:
             if title == product.find_element_by_class_name("title-text").text:
-                awards = product.find_element_by_class_name("awards")
-                awards_list = awards.text.split("\n")
-                awards_list = [award for award in awards_list if award]
+                awards_list = product.find_elements_by_class_name("engagement-type")
+                awards_list = [award.text for award in awards_list if award]
                 return awards_list
 
 
