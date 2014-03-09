@@ -17,6 +17,9 @@ class AccountsPage(Page):
 
 
     def fill_account_tile(self, importer_name, import_content):
+        # scroll to bottom of the page to get all the importers on
+        self.wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
         self.wait_for_element_visible(*(By.ID, importer_name + "-account-tile"))
         self.wd.find_element_by_id(importer_name + "-account-tile").click()
 
