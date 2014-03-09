@@ -33,7 +33,7 @@ def decide_pass_fail(result_contents):
 
 def run_tests(test_type):
     passed = True
-    run_command = 'nosetests --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:{test_type} tests/test_signup.py'.format(
+    run_command = 'nosetests --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:{test_type} tests/test_signup_and_accounts.py'.format(
         test_type=test_type)
     try:
         nose_output = subprocess.check_output(run_command,
