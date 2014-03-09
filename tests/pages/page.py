@@ -100,7 +100,6 @@ class Page(object):
             time.sleep(1)
             count += 1
             if count == self.timeout:
-                print "not loaded"
                 raise Exception(*locator)
 
     def wait_for_element_visible(self, *locator):
@@ -110,7 +109,6 @@ class Page(object):
             time.sleep(1)
             count += 1
             if count == self.timeout:
-                print "not visible"
                 raise Exception(*locator)
 
     def wait_for_element_not_present(self, *locator):
@@ -120,7 +118,7 @@ class Page(object):
             WebDriverWait(self.wd, self.timeout).until(lambda s: len(self.find_elements(*locator)) < 1)
             return True
         except TimeoutException:
-            Assert.fail(TimeoutException)
+            raise
         finally:
             self.wd.implicitly_wait(self.implicit_wait_time)
 
@@ -131,18 +129,8 @@ class Page(object):
             WebDriverWait(self.wd, self.timeout).until(lambda s: not self.is_element_visible(*locator))
             return True
         except TimeoutException:
-            Assert.fail(TimeoutException)
+            raise
         finally:
             self.wd.implicitly_wait(self.implicit_wait_time)
-
-    def wait_for_element_not_visible_override_timeout(self, override_timeout, *locator):
-        """Wait for the element at the specified locator to be not present in the DOM."""
-        self.wd.implicitly_wait(0)
-        try:
-            WebDriverWait(self.wd, override_timeout).until(lambda s: not self.is_element_visible(*locator))
-            return True
-        except TimeoutException:
-            Assert.fail(TimeoutException)
-        finally:
-            self.wd.implicitly_wait(self.implicit_wait_time)            
+           
 

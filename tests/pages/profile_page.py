@@ -1,4 +1,4 @@
-import os, re
+import os, re, time
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -73,10 +73,10 @@ class ProfilePage(Page):
         return self.wd.find_elements_by_css_selector("div.admin-controls")
 
     def wait_till_done_updating(self):
-        # self.wait_for_element_not_visible_override_timeout(120, *(By.CSS_SELECTOR, "h3.finding-impact-data-header"))
-        # self.wait_for_element_not_present(*(By.CSS_SELECTOR, "h3.finding-impact-data-header"))
-        import time
-        time.sleep(30)
+        timeout_before = self.timeout
+        self.timeout = 120
+        self.wait_for_element_not_visible(*(By.ID, "products-still-updating"))        
+        self.timeout = timeout_before
 
 
 
