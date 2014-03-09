@@ -77,6 +77,7 @@ def set_web_driver_and_host(type_of_test):
         desired_capabilities = sauce_browsers[browser]["capabilities"]
         desired_capabilities["version"] = sauce_browsers[browser]["version"]
         desired_capabilities["platform"] = sauce_operating_systems[operating_system]
+        desired_capabilities["screen-resolution"] = "1280x1024"
         desired_capabilities['name'] = "{type_of_test}".format(
             type_of_test=type_of_test, host=host)
         if not os.getenv("SAUCE_COMMAND_PATH"):
