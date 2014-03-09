@@ -137,9 +137,6 @@ def teardown_package():
         myredis = redis.from_url(redis_url)
         myredis.set(testconfig.config['test_type']+"job", wd.session_id)
 
-        sauce_data = {"build": datetime.datetime.utcnow().isoformat()}
-        set_test_status(wd.session_id, sauce_data)
-
     wd.quit()
 
 

@@ -34,7 +34,10 @@ class ProfilePage(Page):
         for product in products:
             if title == product.find_element_by_class_name("title-text").text:
                 awards = product.find_element_by_class_name("awards")
-                return awards.text.split("\n")
+                awards_list = awards.text.split("\n")
+                awards_list = [award for award in awards_list if award]
+                return awards_list
+
 
     def extract_stats_from_hover_text(self, hover_text):
         response = re.findall("This item has (.*?) (.*), suggesting", hover_text, re.DOTALL)
@@ -53,6 +56,7 @@ class ProfilePage(Page):
                 award_links = product.find_elements_by_class_name("ti-badge")
                 hover_texts = [a.get_attribute("data-content") for a in award_links]
                 stats = [self.extract_stats_from_hover_text(text) for text in hover_texts]
+                stats = [stat for stat in stats if stat]
                 return stats
 
 

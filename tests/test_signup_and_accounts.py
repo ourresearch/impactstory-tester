@@ -3,7 +3,7 @@ import os, requests, random, time
 from selenium_test_case import SeleniumTestCase, slow, online, wd, host
 import tests
 from tests.pages import signup_page, accounts_page, profile_page
-from nose.tools import assert_equals, assert_in, assert_greater_equal, raises
+from nose.tools import assert_equals, assert_in, assert_greater_equal, assert_items_equal, raises
 
 
 
@@ -52,9 +52,9 @@ class TestSignupAndAccunts(SeleniumTestCase):
 
     def awards_equal(self, list_a, list_b):
         print list_a, list_b
-        assert_equals(list_a, list_b)
-        for (stat_a, stat_b) in zip(list_a, list_b):
-            assert_equals(stat_a.replace("highly ", ""), stat_b.replace("highly ", ""))
+        list_a = [stat.replace("highly ", "") for stat in list_a]
+        list_b = [stat.replace("highly ", "") for stat in list_b]
+        assert_items_equal(list_a, list_b)
 
     def hover_stats_equal(self, list_a, list_b):
         print list_a, list_b
@@ -121,16 +121,17 @@ class TestSignupAndAccunts(SeleniumTestCase):
 
         self.connect_accounts(account_testing_data)
 
+        # self.page.url_slug = "ClarkKent" #comment
         self.profile_page = profile_page.ProfilePage(self.wd, self.host, self.page.url_slug)
-        # self.page.url_slug = "HeatherImpactstorytester5835"
-        # self.profile_page = profile_page.ProfilePage(self.wd, self.host, self.page.url_slug)
-        # ideally won't need these
-        self.profile_page.get()
-        print self.wd.current_url
+        
+        # comment this out after get refresh code
+        self.profile_page.get() #comment
 
-        self.check_profile_page(given_name+" "+surname)
+        print self.wd.current_url
         print "waiting till done updating"
         self.profile_page.wait_till_done_updating()
+
+        self.check_profile_page(given_name+" "+surname)
         print "DONE updating"
         self.check_products(account_testing_data)
 
