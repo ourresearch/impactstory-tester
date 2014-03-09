@@ -8,7 +8,7 @@ from nose.tools import assert_equals, assert_in, assert_greater_equal, assert_it
 
 
 
-class TestSignupAndAccunts(SeleniumTestCase):
+class TestSignupAndAccounts(SeleniumTestCase):
 
 
     def create_user(self, given_name, surname):
@@ -125,7 +125,7 @@ class TestSignupAndAccunts(SeleniumTestCase):
         self.profile_page = profile_page.ProfilePage(self.wd, self.host, self.page.url_slug)
         
         # comment this out after get refresh code
-        # self.profile_page.get() #comment
+        self.profile_page.get() #comment
 
         print self.wd.current_url
         print "waiting till done updating"
