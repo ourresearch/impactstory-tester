@@ -8,6 +8,7 @@ import base64
 import json
 import datetime
 
+
 wd = None
 host = None
 
@@ -49,7 +50,12 @@ def set_web_driver_and_host(type_of_test):
     if type_of_test.startswith("local"):
         host = "http://localhost:5000"
     else:
-        host = "http://staging-impactstory.org"        
+        if "http://impactstory.org" == os.getenv("WEBAPP_ROOT_PRETTY"):
+            # if set to production, use production.  otherwise use staging.
+            host = "http://impactstory.org"
+        else:
+            # do it this way so host is set to staging if running against sauce from localhost
+            host = "http://staging-impactstory.org"        
 
     if type_of_test == 'local_firefox':
         profile = webdriver.FirefoxProfile()
