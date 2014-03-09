@@ -45,9 +45,8 @@ class ProfilePage(Page):
         if "suggesting" in hover_text:
             response = re.findall("This item has (.*?) (.*), suggesting", hover_text)
         else:
-            response = re.findall("This item has (.*?) (.*)\. That", hover_text)
+            response = re.findall("This item has (.*?) (.*). That's better", hover_text)
         print response
-        print re.findall("This item has (.*?) (.*?). That", hover_text)
 
         if not response:
             return {}

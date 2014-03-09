@@ -43,8 +43,8 @@ class TestSignupAndAccounts(SeleniumTestCase):
                     assert_in(title, self.profile_page.product_titles)
                     if "awards" in product:
                         self.awards_equal(self.profile_page.awards(title), product["awards"])
-                    if "hover_stats" in product:
-                        self.hover_stats_equal(self.profile_page.hover_stats(title), product["hover_stats"])
+                    # if "hover_stats" in product:
+                    #     self.hover_stats_equal(self.profile_page.hover_stats(title), product["hover_stats"])
 
 
     def check_profile_page(self, full_name):
