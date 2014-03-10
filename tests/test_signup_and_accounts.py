@@ -132,6 +132,10 @@ class TestSignupAndAccounts(SeleniumTestCase):
         print "waiting till done updating"
         self.profile_page.wait_till_done_updating()
 
+        # see if this makes them consistently pass
+        import time
+        time.sleep(30)
+
         self.check_profile_page(given_name+" "+surname)
         print "DONE updating"
         self.check_products(account_testing_data)
