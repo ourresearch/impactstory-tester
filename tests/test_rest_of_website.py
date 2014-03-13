@@ -76,7 +76,7 @@ class TestFeedback(SeleniumTestCase):
     
     def setUp(self):
         SeleniumTestCase.setUp(self) 
-        self.url = "http://feedback.impactstory.org"
+        self.url = "http://feedback.impactstory.org?test=true"
 
     def test_title(self):
         self.wd.get(self.url)

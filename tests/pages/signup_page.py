@@ -10,7 +10,8 @@ from page import Page
 
 class SignupPage(Page):
     def __init__(self, wd, host):
-        url = host + "/signup" 
+        url = "{host}/signup?test=true".format(
+            host=host)
         super(SignupPage, self).__init__(wd, url)
 
     # def number_products_imported(self, importer_name):

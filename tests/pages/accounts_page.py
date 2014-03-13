@@ -11,7 +11,7 @@ from page import Page
 class AccountsPage(Page):
     def __init__(self, wd, host, url_slug):
         self.url_slug = url_slug
-        url = "{host}/{url_slug}/accounts".format(
+        url = "{host}/{url_slug}/accounts?test=true".format(
             host=host, url_slug=url_slug)
         super(AccountsPage, self).__init__(wd, url)
 

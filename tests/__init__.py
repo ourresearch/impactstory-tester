@@ -20,7 +20,7 @@ host = None
 
 # call like this 
 # nosetests --rednose --with-progressive --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:local_firefox 
-# nosetests --with-html-output --rednose --with-progressive --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:sauce_windows_chrome tests/test_signup.py
+# nosetests -s --rednose --with-progressive --verbose --processes=4 --process-timeout=120 -A "not slow and not online" --tc=test_type:sauce_windows_chrome tests/test_signup_and_accounts.py
 # -s is to turn off output capture
 
 # or 
@@ -113,15 +113,6 @@ def delete_all_test_accounts(host):
     r = requests.delete(url)
     print "DELETED", r.json()
     return r.json()
-
-
-def delete_test_account(url_slug):
-    global host
-    url = host + u"/user/{url_slug}".format(
-        url_slug=url_slug)
-    print u"deleting test account:", url
-    r = requests.delete(url)
-    return r
 
 
 def setup_package():
