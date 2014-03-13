@@ -37,7 +37,7 @@ class SignupPage(Page):
 
         self.wait_for_element_present(*(By.CLASS_NAME, "profile-header"))
         profile_url = self.wd.current_url
-        self.url_slug = profile_url.rsplit("/", 1)[1]
+        self.url_slug = profile_url.replace("?test=true", "").rsplit("/", 1)[1]
 
 
     def fill_account_tile(self, importer_name, import_content):
