@@ -6,7 +6,7 @@ from page import Page
 
 class FaqPage(Page):
     def __init__(self, wd, host):
-        url = "{host}/faq?test=true".format(
+        url = "{host}/faq".format(
             host=host)
         super(FaqPage, self).__init__(wd, url)
 

@@ -10,7 +10,7 @@ from page import Page
 
 class SignupPage(Page):
     def __init__(self, wd, host):
-        url = "{host}/signup?test=true".format(
+        url = "{host}/signup".format(
             host=host)
         super(SignupPage, self).__init__(wd, url)
 
@@ -37,7 +37,7 @@ class SignupPage(Page):
 
         self.wait_for_element_present(*(By.CLASS_NAME, "profile-header"))
         profile_url = self.wd.current_url
-        self.url_slug = profile_url.replace("?test=true", "").rsplit("/", 1)[1]
+        self.url_slug = profile_url.rsplit("/", 1)[1]
 
 
     def fill_account_tile(self, importer_name, import_content):

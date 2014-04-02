@@ -8,7 +8,7 @@ from page import Page
 
 class ProfilePage(Page):
     def __init__(self, wd, host, url_slug="CarlBoettiger"):
-        url = "{host}/{url_slug}?test=true".format(
+        url = "{host}/{url_slug}".format(
             host=host, url_slug=url_slug)
         super(ProfilePage, self).__init__(wd, url)
 

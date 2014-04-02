@@ -9,7 +9,7 @@ from page import Page
 
 class LandingPage(Page):
     def __init__(self, wd, host):
-        url = "{host}/?test=true".format(
+        url = "{host}".format(
             host=host)
         super(LandingPage, self).__init__(wd, url)
         if self.is_logged_in:
