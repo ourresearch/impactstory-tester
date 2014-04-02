@@ -50,10 +50,12 @@ def set_web_driver_and_host(type_of_test):
     if type_of_test.startswith("local"):
         host = "http://localhost:5000"
     else:
-        if "http://impactstory.org" == os.getenv("WEBAPP_ROOT_PRETTY"):
-            # if set to production, use production.  otherwise use staging.
-            host = "http://impactstory.org"
+        if os.getenv("WEBAPP_ROOT_PRETTY") in ["http://total-impact-webapp.herokuapp.com", "http://impactstory.org"]:
+            # if set to production, use production.  use the herokuapps url so that we can tell 
+            # the difference between testing and normal users.
+            host = "http://total-impact-webapp.herokuapp.com"
         else:
+            # if not pointing to production, use staging.
             # do it this way so host is set to staging if running against sauce from localhost
             host = "http://staging-impactstory.org"        
 
