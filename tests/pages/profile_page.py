@@ -88,7 +88,7 @@ class ProfilePage(Page):
     def wait_till_done_updating(self):
         import time
         # seems to need an extra second for some reason
-        time.sleep(2)
+        time.sleep(30)
 
         timeout_before = self.timeout
         self.timeout = 120
