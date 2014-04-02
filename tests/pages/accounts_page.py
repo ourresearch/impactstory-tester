@@ -34,13 +34,18 @@ class AccountsPage(Page):
     def is_account_connected(self, importer_name):
         self.wait_for_element_visible(*(By.ID, importer_name + "-account-toggle"))
         found = True
+
+        # maybe needs extra sleep
+        import time
+        time.sleep(1)
+        
         try:
             timeout = self.timeout
             self.timeout = 2
             self.wait_for_element_visible(*(By.ID, importer_name + "-account-toggle-on"))
         except Exception:
             found = False
-        self.timeout = timeout           
+        self.timeout = timeout   
         return found
 
 
