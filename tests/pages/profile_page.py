@@ -86,11 +86,15 @@ class ProfilePage(Page):
         return self.wd.find_elements_by_css_selector("div.admin-controls")
 
     def wait_till_done_updating(self):
+        import time
+        # seems to need an extra second for some reason
+        time.sleep(2)
+
         timeout_before = self.timeout
         self.timeout = 120
         self.wait_for_element_not_visible(*(By.ID, "products-still-updating"))        
         self.timeout = timeout_before
-        import time
+
         # seems to need an extra second for some reason
         time.sleep(1)
 
