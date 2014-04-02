@@ -14,8 +14,9 @@ class ProfilePage(Page):
 
     @property
     def name(self):
-        self.wait_for_element_visible(*(By.ID, "profile-owner-name"))        
+        self.wait_for_element_visible(*(By.ID, "profile-owner-name"))
         return self.wd.find_element_by_id("profile-owner-name").text
+
 
     @property
     def number_products(self):
@@ -88,6 +89,9 @@ class ProfilePage(Page):
         self.timeout = 120
         self.wait_for_element_not_visible(*(By.ID, "products-still-updating"))        
         self.timeout = timeout_before
+        import time
+        # seems to need an extra second for some reason
+        time.sleep(1)
 
 
 
