@@ -25,7 +25,7 @@ class AccountsPage(Page):
 
         self.wait_for_element_clickable(*(By.ID, importer_name + "-account-username-input"))
         self.wd.find_element_by_id(importer_name + "-account-username-input").click()
-        
+
         self.wd.find_element_by_id(importer_name + "-account-username-input").send_keys(import_content)
 
         self.wait_for_element_clickable(*(By.ID, importer_name + "-account-username-submit"))
@@ -56,6 +56,10 @@ class AccountsPage(Page):
         self.wd.find_element_by_partial_link_text("Import my").click()
 
     def finish_connected_accounts(self):
+        # maybe needs extra sleep
+        import time
+        time.sleep(1)
+        
         self.wait_for_element_clickable(*(By.PARTIAL_LINK_TEXT, "back to profile"))
         self.wd.find_element_by_partial_link_text("back to profile").click()
 
