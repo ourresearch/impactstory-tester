@@ -24,10 +24,11 @@ class AccountsPage(Page):
         self.wd.find_element_by_id(importer_name + "-account-tile").click()
 
         self.wait_for_element_clickable(*(By.ID, importer_name + "-account-username-input"))
-
         self.wd.find_element_by_id(importer_name + "-account-username-input").click()
+        
         self.wd.find_element_by_id(importer_name + "-account-username-input").send_keys(import_content)
 
+        self.wait_for_element_clickable(*(By.ID, importer_name + "-account-username-submit"))
         self.wd.find_element_by_id(importer_name + "-account-username-submit").click()
 
 
