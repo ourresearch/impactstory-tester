@@ -34,6 +34,7 @@ class ProfilePage(Page):
         self.wait_for_element_visible(*(By.CLASS_NAME, "real-product"))        
         products = self.wd.find_elements_by_class_name("real-product")
         for product in products:
+            self.wait_for_element_visible(*(By.CLASS_NAME, "title-text"))        
             if title == product.find_element_by_class_name("title-text").text:
                 awards_list = product.find_elements_by_class_name("engagement-type")
                 awards_list = [award.text for award in awards_list if award]
