@@ -20,7 +20,7 @@ class AccountsPage(Page):
         # scroll to bottom of the page to get all the importers on
         self.wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-        self.wait_for_element_visible(*(By.ID, importer_name + "-account-tile"))
+        self.wait_for_element_clickable(*(By.ID, importer_name + "-account-tile"))
         self.wd.find_element_by_id(importer_name + "-account-tile").click()
 
         self.wait_for_element_clickable(*(By.ID, importer_name + "-account-username-input"))
@@ -46,15 +46,16 @@ class AccountsPage(Page):
         except Exception:
             found = False
         self.timeout = timeout   
+
         return found
 
 
     def start_connected_accounts(self):
-        self.wait_for_element_visible(*(By.PARTIAL_LINK_TEXT, "Import my"))
+        self.wait_for_element_clickable(*(By.PARTIAL_LINK_TEXT, "Import my"))
         self.wd.find_element_by_partial_link_text("Import my").click()
 
     def finish_connected_accounts(self):
-        self.wait_for_element_visible(*(By.PARTIAL_LINK_TEXT, "back to profile"))
+        self.wait_for_element_clickable(*(By.PARTIAL_LINK_TEXT, "back to profile"))
         self.wd.find_element_by_partial_link_text("back to profile").click()
 
     def wait_till_import_done(self):

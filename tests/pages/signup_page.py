@@ -26,7 +26,7 @@ class SignupPage(Page):
         self.wd.find_element_by_id("signup-password").click()
         self.wd.find_element_by_id("signup-password").send_keys(password)
 
-        self.wait_for_element_present(*(By.CLASS_NAME, "btn-primary"))
+        self.wait_for_element_clickable(*(By.CLASS_NAME, "btn-primary"))
         self.wd.find_element_by_class_name("btn-primary").click()
 
         self.wait_for_element_present(*(By.CLASS_NAME, "profile-header"))
