@@ -121,7 +121,7 @@ def setup_package():
     global wd, host
     test_type = testconfig.config['test_type']
     (wd, host) = set_web_driver_and_host(test_type)
-    delete_all_test_accounts(host)
+    # delete_all_test_accounts(host)
 
 
 def teardown_package():

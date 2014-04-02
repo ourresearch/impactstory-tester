@@ -6,6 +6,7 @@ import base64
 import json
 import datetime
 import subprocess
+import time
 
 # based on https://gist.github.com/santiycr/1644439
 def set_sauce_data(jobid, sauce_data):
@@ -63,6 +64,8 @@ def update_job_status(passed, build, nose_output):
 build = datetime.datetime.now().isoformat()[0:16]
 for test_type in ["sauce_windows_chrome", "sauce_windows_firefox", "sauce_mac_chrome", "sauce_mac_safari"]:
     (passed, nose_output) = run_tests(test_type)
+    # so that they don't create the same url at the same time
+    time.sleep(5)
     print nose_output
     if "sauce" in test_type:
         job_id = update_job_status(passed, build, nose_output)
