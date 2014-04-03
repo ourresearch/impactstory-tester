@@ -12,6 +12,8 @@ class TestSignupAndAccounts(SeleniumTestCase):
 
 
     def create_user(self, given_name, surname):
+        # the email suffex @test-impactstory.org is used to decide what accounts to delete, 
+        # so don't change without changing the DELETE /tests endpoint in webapp
         test_email = "test" + str(random.randint(1000, 9999)) + "@test-impactstory.org"
         self.page.fill_signup_form(given_name, surname, test_email, "pass123")
 
@@ -79,34 +81,36 @@ class TestSignupAndAccounts(SeleniumTestCase):
                     "awards": [u'cited', u'saved', u'saved', u'discussed'],
                     "hover_stats": [{'stat': u'16', 'metric_name': u'Scopus citations'}, {'stat': u'129', 'metric_name': u'Mendeley readers'}, {'stat': u'1', 'metric_name': u'Delicious bookmark'}, {'stat': u'18', 'metric_name': u'Altmetric.com tweets'}]
                 }]
-            },
-            "github": {
-                "username": "tjv",
-                "number_products": 4,
-                "products": [{
-                    "title": "hapnotes",
-                    "awards": [u'recommended', u'cited'],
-                    "hover_stats": [{'stat': u'1', 'metric_name': u'GitHub star'}, {'stat': u'1', 'metric_name': u'GitHub fork'}]
-                }]
-            },
-            "figshare": {
-                "username": "http://figshare.com/authors/Jason_Priem/100944",
-                "number_products": 2,
-                "products": [{
-                    "title": "Toward a comprehensive impact report for every software project",
-                    "awards": [u'discussed', u'viewed', u'saved', u'discussed'],
-                    "hover_stats": [{'stat': u'16', 'metric_name': u'figshare shares'}, {'stat': u'344', 'metric_name': u'figshare views'}, {'stat': u'4', 'metric_name': u'Delicious bookmarks'}, {'stat': u'30', 'metric_name': u'Altmetric.com tweets'}]
-                }]
-            },     
-            "slideshare": {
-                "username": "jaybhatt",
-                "number_products": 9,
-                "products": [{
-                    "title": "ENDNOTE presentation",
-                    "awards": [u'recommended', u'saved', u'discussed', u'viewed'],
-                    "hover_stats": [{'stat': u'3', 'metric_name': u'SlideShare favorites'}, {'stat': u'1', 'metric_name': u'Delicious bookmark'}, {'stat': u'1', 'metric_name': u'SlideShare comment'}, {'stat': u'7603', 'metric_name': u'SlideShare views'}]
-                }]
             }
+            # ,
+            # "github": {
+            #     "username": "tjv",
+            #     "number_products": 4,
+            #     "products": [{
+            #         "title": "hapnotes",
+            #         "awards": [u'recommended', u'cited'],
+            #         "hover_stats": [{'stat': u'1', 'metric_name': u'GitHub star'}, {'stat': u'1', 'metric_name': u'GitHub fork'}]
+            #     }]
+            # },
+            # "figshare": {
+            #     "username": "http://figshare.com/authors/Jason_Priem/100944",
+            #     "number_products": 2,
+            #     "products": [{
+            #         "title": "Toward a comprehensive impact report for every software project",
+            #         "awards": [u'discussed', u'viewed', u'saved', u'discussed'],
+            #         "hover_stats": [{'stat': u'16', 'metric_name': u'figshare shares'}, {'stat': u'344', 'metric_name': u'figshare views'}, {'stat': u'4', 'metric_name': u'Delicious bookmarks'}, {'stat': u'30', 'metric_name': u'Altmetric.com tweets'}]
+            #     }]
+            # },     
+            # "slideshare": {
+            #     "username": "jaybhatt",
+            #     "number_products": 9,
+            #     "products": [{
+            #         "title": "ENDNOTE presentation",
+            #         "awards": [u'recommended', u'saved', u'discussed', u'viewed'],
+            #         "hover_stats": [{'stat': u'3', 'metric_name': u'SlideShare favorites'}, {'stat': u'1', 'metric_name': u'Delicious bookmark'}, {'stat': u'1', 'metric_name': u'SlideShare comment'}, {'stat': u'7603', 'metric_name': u'SlideShare views'}]
+            #     }]
+            # }
+
             # ,                                     
             # "google_scholar": {
             #     "username": "http://scholar.google.ca/citations?user=AwwuwS0AAAAJ",

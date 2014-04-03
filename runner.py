@@ -7,6 +7,7 @@ import json
 import datetime
 import subprocess
 import time
+import tests
 
 # based on https://gist.github.com/santiycr/1644439
 def set_sauce_data(jobid, sauce_data):
@@ -62,6 +63,8 @@ def update_job_status(passed, build, nose_output):
 
 # our biggest uses: https://www.google.com/analytics/web/?hl=en#report/visitors-browser/a23384030w45814434p46013062/%3Fexplorer-segmentExplorer.segmentId%3Danalytics.operatingSystem%26explorer-table.plotKeys%3D%5B%5D%26explorer-table.secSegmentId%3Danalytics.browser/
 build = datetime.datetime.now().isoformat()[0:16]
+tests.delete_all_test_accounts(tests.get_host("sauce_all"))
+
 #for test_type in ["sauce_windows_chrome", "sauce_windows_firefox", "sauce_mac_chrome", "sauce_mac_safari"]:
 for test_type in ["sauce_mac_chrome"]:
     (passed, nose_output) = run_tests(test_type)

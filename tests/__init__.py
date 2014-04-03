@@ -44,20 +44,8 @@ sauce_browsers = {
     }
 
 
-def set_web_driver_and_host(type_of_test):
-    print "setting type_of_test=", type_of_test
-
-    if type_of_test.startswith("local"):
-        host = "http://localhost:5000"
-    else:
-        if os.getenv("WEBAPP_ROOT_PRETTY") in ["http://total-impact-webapp.herokuapp.com", "http://impactstory.org"]:
-            # if set to production, use production.  use the herokuapps url so that we can tell 
-            # the difference between testing and normal users.
-            host = "http://total-impact-webapp.herokuapp.com"
-        else:
-            # if not pointing to production, use staging.
-            # do it this way so host is set to staging if running against sauce from localhost
-            host = "http://staging-impactstory.org"        
+def get_webdriver(type_of_test):
+    print "type_of_test=", type_of_test   
 
     if type_of_test == 'local_firefox':
         profile = webdriver.FirefoxProfile()
@@ -90,7 +78,25 @@ def set_web_driver_and_host(type_of_test):
             command_executor=os.getenv("SAUCE_COMMAND_PATH")
         )
 
-    return (wd, host)
+    return wd
+
+
+def get_host(type_of_test):
+    print "type_of_test=", type_of_test
+
+    if type_of_test.startswith("local"):
+        host = "http://localhost:5000"
+    else:
+        if os.getenv("WEBAPP_ROOT_PRETTY") in ["http://total-impact-webapp.herokuapp.com", "http://impactstory.org"]:
+            # if set to production, use production.  use the herokuapps url so that we can tell 
+            # the difference between testing and normal users.
+            host = "http://total-impact-webapp.herokuapp.com"
+        else:
+            # if not pointing to production, use staging.
+            # do it this way so host is set to staging if running against sauce from localhost
+            host = "http://staging-impactstory.org"        
+
+    return host
 
 
 # based on https://gist.github.com/santiycr/1644439
@@ -120,7 +126,8 @@ def delete_all_test_accounts(host):
 def setup_package():
     global wd, host
     test_type = testconfig.config['test_type']
-    (wd, host) = set_web_driver_and_host(test_type)
+    host = get_host(test_type)
+    wd = get_webdriver(test_type)
     # delete_all_test_accounts(host)
 
 
