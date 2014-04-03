@@ -62,7 +62,8 @@ def update_job_status(passed, build, nose_output):
 
 # our biggest uses: https://www.google.com/analytics/web/?hl=en#report/visitors-browser/a23384030w45814434p46013062/%3Fexplorer-segmentExplorer.segmentId%3Danalytics.operatingSystem%26explorer-table.plotKeys%3D%5B%5D%26explorer-table.secSegmentId%3Danalytics.browser/
 build = datetime.datetime.now().isoformat()[0:16]
-for test_type in ["sauce_windows_chrome", "sauce_windows_firefox", "sauce_mac_chrome", "sauce_mac_safari"]:
+#for test_type in ["sauce_windows_chrome", "sauce_windows_firefox", "sauce_mac_chrome", "sauce_mac_safari"]:
+for test_type in ["sauce_mac_chrome"]:
     (passed, nose_output) = run_tests(test_type)
     # so that they don't create the same url at the same time
     time.sleep(5)
